@@ -1,11 +1,10 @@
-#
-# This is a Shiny web application. You can run the application by clicking
-# the 'Run App' button above.
-#
-# Find out more about building applications with Shiny here:
-#
-#    http://shiny.rstudio.com/
-#
+#Allison zembrodt
+#Game of thrones shiny app
+#This is the first part of a game of thrones app which will discuss the characters, 
+#houses, gender themes, deaths, and predictions. See outline in photos to see original ideas
+#3/20/19
+
+#Packages needed------
 library(tidyverse)
 library(readxl)
 library(reshape2)
@@ -13,7 +12,7 @@ library(shiny)
 library(shinythemes)
 library(ggthemes)
 
-#ALLI- SOURCE THIS EVENTUALLY 
+#ALLI- SOURCE THIS EVENTUALLY -----
 # I would like to source this and put this code in a different file
 ScreenTime <- read_excel("~/Documents/GameOfThrones/ScreenTime.xlsx")
 houses <- read_csv("~/Documents/GitHub/GOT/houses.csv")
@@ -27,7 +26,7 @@ ScreenTime1 = left_join(ScreenTime, Goodness)
 
 top10TimePerEpisode = top10melted %>%group_by(character) %>% summarise(timePerEp = sum(value)/ mean(Episodes))
 
-# Define UI for application that draws a histogram
+# Define UI for application -----
 ui <- fluidPage(
    theme = shinytheme('superhero'),
    
@@ -138,7 +137,7 @@ ui <- fluidPage(
 )
 
 
-
+#Server Function -----
 server <- function(input, output) {
    output$distPlot <- renderPlot({
       # make a ggplot of the screen time of character
