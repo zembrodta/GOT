@@ -64,7 +64,7 @@ ui <- fluidPage(
                                               ), 
                                   selected = "None")
                     ), 
-            column(7, offset = .75,
+            column(6, offset = .75,
                    h2("Screen Time Per Season"),
                    plotOutput("distPlot")
                    )        
@@ -103,16 +103,14 @@ ui <- fluidPage(
           
 
         )),
-  
-        
+   
         conditionalPanel(
-          condition = "input.Character2 != 'None' && input.Character2 != input.Character1",
+          condition = "input.Character2 != 'None' ",
           style = 'margin-top: -10%;',
           fluidRow(
             column(7, offset = 1,
                    h2("Character 2 Information")
             )
-          )
           ),
           fluidRow(
           column(2, offset=1,
@@ -137,10 +135,10 @@ ui <- fluidPage(
           )
         )  
       )
+)
 
 
 
-# Define server logic required to draw a histogram
 server <- function(input, output) {
    output$distPlot <- renderPlot({
       # make a ggplot of the screen time of character
@@ -157,9 +155,16 @@ server <- function(input, output) {
      {
        img = "~/Documents/GitHub/GOT/GameofThrones/starkSigil.png"
      }
-     if ( input$Character %in% lannister)
+     else if ( input$Character %in% lannister)
      {
        img = "~/Documents/GitHub/GOT/GameofThrones/lannisterSigil.png"
+     }
+     else if ( input$Character == "Daenerys Targaryen")
+     {
+       img = "~/Documents/GitHub/GOT/GameofThrones/targaryenSigil.png"
+     }
+     else {
+       img = "~/Documents/GitHub/GOT/GameofThrones/tarlySigil.png"
      }
      list(src = img, width = 175,
           height = 200)},
@@ -171,9 +176,16 @@ server <- function(input, output) {
      {
        img = "~/Documents/GitHub/GOT/GameofThrones/starkSigil.png"
      }
-     if ( input$Character2 %in% lannister)
+     else if ( input$Character2 %in% lannister)
      {
        img = "~/Documents/GitHub/GOT/GameofThrones/lannisterSigil.png"
+     }
+     else if ( input$Character2 == "Daenerys Targaryen")
+     {
+       img = "~/Documents/GitHub/GOT/GameofThrones/targaryenSigil.png"
+     }
+     else {
+       img = "~/Documents/GitHub/GOT/GameofThrones/tarlySigil.png"
      }
      list(src = img, width = 175,
           height = 200)},
