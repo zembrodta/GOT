@@ -4,22 +4,12 @@
 #houses, gender themes, deaths, and predictions. See outline in photos to see original ideas
 #3/20/19
 
-#Packages needed------
-# library(tidyverse)
-# library(readxl)
-# library(reshape2)
-# library(shiny)
-# library(shinythemes)
-# library(ggthemes)
-
-#ALLI- SOURCE THIS EVENTUALLY -----
-
 # Define UI for application -----
 ui <- uiOutput("uiStub")
 
 server <- function ( input, output, session ){
   output$uiStub <- renderUI(tagList(             # a single-output stub ui basically lets you
-    
+    #tags$audio(src = "~/Documents/GitHub/GOT/MainTheme.mp3", type = "audio/mp3", autoplay = TRUE, controls = "controls"),
     fluidPage(                                  #     move the ui into the server function
       fluidRow(
         column(12,h1("Game of Thrones")

@@ -4,6 +4,7 @@ library(reshape2)
 library(shiny)
 library(shinythemes)
 library(ggthemes)
+library(shinyjs)
 
 ScreenTime <- read_excel("~/Documents/GameOfThrones/ScreenTime.xlsx")
 houses <- read_csv("~/Documents/GitHub/GOT/houses.csv")
