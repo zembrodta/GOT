@@ -84,7 +84,7 @@ model %>%
     optimizer = optimizer_adam(),
     metrics = c('accuracy')
   )
-
+                                                    
 history <- model %>% fit(
   training_x, one_hot_train,
   epochs = 100, batch_size = 6,

@@ -9,7 +9,7 @@ ui <- uiOutput("uiStub")
 
 server <- function ( input, output, session ){
   output$uiStub <- renderUI(tagList(             # a single-output stub ui basically lets you
-    #tags$audio(src = "~/Documents/GitHub/GOT/MainTheme.mp3", type = "audio/mp3", autoplay = TRUE, controls = "controls"),
+    # tags$audio(src = "www/MainTheme.mp3", type = "audio/mp3", autoplay = TRUE, controls =T),
     fluidPage(                                  #     move the ui into the server function
       fluidRow(
         column(12,h1("Game of Thrones")
@@ -20,13 +20,15 @@ server <- function ( input, output, session ){
                HTML(
                     "<h3><a href='?characters'>Characters</a> |",
                     "<a href='?houses'>Houses</a> |",
+                    "<a href='?gender'>Gender</a> |",
+                    "<a href='?death'>Death</a> |",
                     "</h3>")
         )
       ),
       uiOutput("pageStub")                     # loaded server code should render the
     )                                           #    rest of the page to this output$
   ))
-  validFiles = c( "characters.R", "houses.R")
+  validFiles = c( "characters.R", "houses.R", "gender.R", "death.R")
   
   fname = isolate(session$clientData$url_search)       # isolate() deals with reactive context
   if(nchar(fname)==0) { fname = "?characters" }              # blank means home page

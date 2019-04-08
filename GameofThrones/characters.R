@@ -5,6 +5,9 @@ library(shiny)
 library(shinythemes)
 library(ggthemes)
 library(shinyjs)
+library(waffle)
+library(igraph)
+library(plotly)
 
 ScreenTime <- read_excel("~/Documents/GameOfThrones/ScreenTime.xlsx")
 houses <- read_csv("~/Documents/GitHub/GOT/houses.csv")
@@ -51,7 +54,7 @@ output$pageStub <- renderUI( fluidPage(
           ), 
     column(6, offset = .75,
            h2("Screen Time Per Season"),
-           plotOutput("distPlot")
+           plotlyOutput("distPlot")
           )        
     
   ),
@@ -123,13 +126,14 @@ output$pageStub <- renderUI( fluidPage(
 )
 )
 
-output$distPlot <- renderPlot({
+output$distPlot <- renderPlotly({
   # make a ggplot of the screen time of character
   characters.colors <- c("Jon Snow" = "grey31", "Daenerys Targaryen" = "firebrick", "Tyrion Lannister" = "peru", "Sansa Stark" = "plum4", "Cersei Lannister" = "darkgoldenrod1", "Arya Stark" = "chartreuse4", "Jaime Lannister" = "navyblue", "Samwell Tarly"= "peachpuff2")
   df = filter(top10melted, top10melted$character == input$Character | top10melted$character == input$Character2)
   #use the scale_color_manual to get each character to have their own color 
-  ggplot(df, aes(variable, value, group = character, color = character))+
+  print(ggplotly(ggplot(df, aes(variable, value, group = character, color = character))+
     geom_line(lwd = 2) + scale_color_manual(values = characters.colors) + theme_economist()
+))
 })
 
 

@@ -2,8 +2,8 @@
 HouseScreenTime = ScreenTime %>%
   group_by(House) %>%
   filter(House != "Unknown") %>% 
-  summarize( season1 = sum(season1), season2 = sum(season2), season3 = sum(season3), season4 = sum(season4), season5 = sum(season5), season6 = sum(season6), season7 = sum(season7)) %>%
-  mutate ( totalTime = season1 +season2 +season3+season4 +season5+season6+season7)
+  summarize(season1 = sum(season1), season2 = sum(season2), season3 = sum(season3), season4 = sum(season4), season5 = sum(season5), season6 = sum(season6), season7 = sum(season7)) %>%
+  mutate(totalTime = season1+season2+season3+season4+season5+season6+season7)
 
 
 Season1Top = top_n(HouseScreenTime, 4, season1)
@@ -14,7 +14,7 @@ Season5Top = top_n(HouseScreenTime, 4, season5)
 Season6Top = top_n(HouseScreenTime, 4, season6)
 Season7Top = top_n(HouseScreenTime, 4, season7)
 
-houses.colors <- c("Stark" = "plum4", "Targaryen" = "firebrick", "Lannister" = "peru", "Greyjoy" = "grey31", "Baratheon" = "chocolate4", "Tyrell" = "darkolivegreen3", "Clegane" = "steelblue")
+houses.colors <- c("Stark" = "plum4", "Targaryen" = "firebrick", "Lannister" = "peru", "Greyjoy" = "grey31", "Baratheon" = "chocolate4", "Tyrell" = "darkolivegreen3", "Clegane" = "steelblue", "Free Folk" = "blue")
 Starkhouses.colors <- c("Stark" = "plum4", "Targaryen" = "azure3", "Lannister" = "azure3", "Greyjoy" = "azure3", "Baratheon" = "azure3", "Tyrell" = "azure3", "Clegane" = "azure3", "Free Folk" = "azure3")
 Lanhouses.colors <- c("Stark" = "azure3", "Targaryen" = "azure3", "Lannister" = "peru", "Greyjoy" = "azure3", "Baratheon" = "azure3", "Tyrell" = "azure3", "Clegane" = "azure3", "Free Folk" = "azure3")
 Targhouses.colors <- c("Stark" = "azure3", "Targaryen" = "firebrick", "Lannister" = "azure3", "Greyjoy" = "azure3", "Baratheon" = "azure3", "Tyrell" = "azure3", "Clegane" = "azure3", "Free Folk" = "azure3")
@@ -40,7 +40,7 @@ output$pageStub <- renderUI(
     ),
     column(3, 
            h2("Greyjoy"),
-           imageOutput("image4")
+           imageOutput("image4", click = "grey_click")
     )),
   fluidRow(
     column(7,
@@ -145,6 +145,31 @@ output$pageStub <- renderUI(
            ),
            column(4,
                   plotOutput("TargSeason7")
+           )
+         ))), 
+  shinyjs::hidden(
+    div( id = "Grey",
+         fluidRow(
+           column(4,
+                  plotOutput("GreySeason1")
+           ),
+           column(4,
+                  plotOutput("GreySeason2")
+           ),
+           column(4,
+                  plotOutput("GreySeason3")
+           ),
+           column(4,
+                  plotOutput("GreySeason4")
+           ),
+           column(4,
+                  plotOutput("GreySeason5")
+           ),
+           column(4,
+                  plotOutput("GreySeason6")
+           ),
+           column(4,
+                  plotOutput("GreySeason7")
            )
          )))
   
@@ -401,6 +426,61 @@ output$pageStub <- renderUI(
   })
   
   
+  output$GreySeason1 <- renderPlot({
+    #use the scale_color_manual to get each house to have their own color 
+    ggplot( Season1Top, aes(x= reorder(House,season1), season1))+
+      geom_bar(stat = 'identity',aes(fill = House))+coord_flip()+
+      labs( x = "", y = "Screen Time (Minutes)", title = "Season 1 Screen Time")+
+      scale_fill_manual(values = Greyjoyhouses.colors)+theme_economist()+ theme(legend.position = "none")
+  })
+  output$GreySeason2 <- renderPlot({
+    #use the scale_color_manual to get each house to have their own color 
+    #houses.colors <- c("Stark" = "plum4", "Targaryen" = "firebrick", "Targnister" = "peru", "Sansa Stark" = "plum4", "Greyjoy" = "grey31", "Baratheon" = "chocolate4")
+    ggplot( Season2Top, aes(x= reorder(House,season2), season2))+
+      geom_bar(stat = 'identity',aes(fill = House))+coord_flip()+
+      labs( x = "", y = "Screen Time (Minutes)", title = "Season 2 Screen Time")+
+      scale_fill_manual(values = Greyjoyhouses.colors)+theme_economist()+ theme(legend.position = "none")
+  })
+  output$GreySeason3 <- renderPlot({
+    #use the scale_color_manual to get each house to have their own color 
+    #houses.colors <- c("Stark" = "plum4", "Targaryen" = "firebrick", "Targnister" = "peru", "Sansa Stark" = "plum4", "Greyjoy" = "grey31", "Baratheon" = "chocolate4")
+    ggplot( Season3Top, aes(x= reorder(House,season3), season3))+
+      geom_bar(stat = 'identity',aes(fill = House))+coord_flip()+
+      labs( x = "", y = "Screen Time (Minutes)", title = "Season 3 Screen Time")+
+      scale_fill_manual(values = Greyjoyhouses.colors)+theme_economist()+ theme(legend.position = "none")
+  })
+  
+  output$GreySeason4 <- renderPlot({
+    #use the scale_color_manual to get each house to have their own color 
+    #houses.colors <- c("Stark" = "plum4", "Targaryen" = "firebrick", "Targnister" = "peru", "Sansa Stark" = "plum4", "Greyjoy" = "grey31", "Baratheon" = "chocolate4")
+    ggplot( Season4Top, aes(x= reorder(House,season4), season4))+
+      geom_bar(stat = 'identity',aes(fill = House))+coord_flip()+
+      labs( x = "", y = "Screen Time (Minutes)", title = "Season 4 Screen Time")+
+      scale_fill_manual(values = Greyjoyhouses.colors)+theme_economist()+ theme(legend.position = "none")
+  })
+  output$GreySeason5 <- renderPlot({
+    #use the scale_color_manual to get each house to have their own color 
+    ggplot( Season5Top, aes(x= reorder(House,season5), season5))+
+      geom_bar(stat = 'identity',aes(fill = House))+coord_flip()+
+      labs( x = "", y = "Screen Time (Minutes)", title = "Season 5 Screen Time")+
+      scale_fill_manual(values = Greyjoyhouses.colors)+theme_economist()+ theme(legend.position = "none")
+  })
+  output$GreySeason6 <- renderPlot({
+    #use the scale_color_manual to get each house to have their own color 
+    ggplot( Season6Top, aes(x= reorder(House,season6), season6))+
+      geom_bar(stat = 'identity',aes(fill = House))+coord_flip()+
+      labs( x = "", y = "Screen Time (Minutes)", title = "Season 6 Screen Time")+
+      scale_fill_manual(values = Greyjoyhouses.colors)+theme_economist()+ theme(legend.position = "none")
+  })
+  output$GreySeason7 <- renderPlot({
+    #use the scale_color_manual to get each house to have their own color 
+    ggplot( Season7Top, aes(x= reorder(House,season7), season7))+
+      geom_bar(stat = 'identity',aes(fill = House))+coord_flip()+
+      labs( x = "", y = "Screen Time (Minutes)", title = "Season 7 Screen Time")+
+      scale_fill_manual(values = Greyjoyhouses.colors)+theme_economist()+ theme(legend.position = "none")
+  })
+  
+  
  #Observe Events ----- 
   observeEvent(input$image_click, {
 
@@ -408,12 +488,14 @@ output$pageStub <- renderUI(
     shinyjs::hide("Lannister")
     shinyjs::hide("mainPlots")
     shinyjs::hide("Targ")
+    shinyjs::hide("Grey")
   })
   observeEvent(input$lan_click, {
     shinyjs::show("Lannister")
     shinyjs::hide("mainPlots")
     shinyjs::hide("Stark")
     shinyjs::hide("Targ")
+    shinyjs::hide("Grey")
   })
   
   observeEvent(input$targ_click, {
@@ -421,7 +503,14 @@ output$pageStub <- renderUI(
     shinyjs::hide("mainPlots")
     shinyjs::hide("Stark")
     shinyjs::hide("Lannister")
+    shinyjs::hide("Grey")
   })
   
-  
+  observeEvent(input$grey_click, {
+    shinyjs::show("Grey")
+    shinyjs::hide("mainPlots")
+    shinyjs::hide("Stark")
+    shinyjs::hide("Lannister")
+    shinyjs::hide("Targ")
+  })
   

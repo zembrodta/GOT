@@ -1,6 +1,7 @@
 library(tidyverse)
 library(readxl)
 library(reshape2)
+library(plotly)
 
 ScreenTime <- read_excel("~/Documents/GameOfThrones/ScreenTime.xlsx")
 houses <- read_csv("houses.csv")
@@ -83,6 +84,52 @@ ggplot( Season6TopChar, aes(x= reorder(character,season6), season6))+geom_bar(st
 ggplot( Season7TopChar, aes(x= reorder(character,season7), season7))+geom_bar(stat = 'identity',aes(fill = House))+coord_flip()+ labs( x = "Season 7", y = "character", title = "Season 7 Screen Time")
 
 
+library(igraph)
 
+NamedDeath <- read_excel("~/Documents/GameOfThrones/NamedDeath.xlsx")
+SigDeath <- read_excel("~/Documents/GameOfThrones/SigDeath.xlsx")
+SigDeath1 = SigDeath[c(5,1)]
+
+a = data.frame(unique(SigDeath$name))
+b = data.frame(unique(SigDeath$killer))
+names(a)[names(a) == "unique.SigDeath.name."] = "person"
+names(b)[names(b) == "unique.SigDeath.killer."] = "person"
+v = rbind(a,b)
+v = unique(v)
+# write.csv(v,"V.csv")
+#v <- unique(c(SigDeath[,1], SigDeath[,5]))
+
+
+deathnet = graph_from_data_frame(d = SigDeath1, vertices = V, directed = T)
+plot(deathnet, vertex.color = V$color, vertex.label.cex = 1, vertex.size=5, vertex.label.dist =1.25,edge.curve = .05, edge.arrow.size=.05, vertex.label.color="black", layout=layout_with_fr)
+
+#Cause of Death Waffel Plot 
+
+
+
+COD = ScreenTimeGender %>%
+  group_by(CauseOfDeath)%>%
+  summarize ( count = n()) %>%
+  filter(count >1) %>%
+  filter(!is.na(CauseOfDeath))
+sum(COD$count)
+c = COD$count
+names(c) = COD$CauseOfDeath
+
+waffle::waffle(c,  rows=5, colors = c("plum4", "chocolate1", "lightsteelblue3", "darkslateblue","forestgreen", "goldenrod3", "lightsalmon", "orange2", "palegreen4", "peru", "seashell4", "thistle3", "wheat4", "steelblue4", "tan2", "lavenderblush4"))+ theme_economist()+
+  theme(axis.title.x=element_blank(),
+        axis.text.x=element_blank(),
+        axis.ticks.x=element_blank(),
+        axis.text.y=element_blank(), 
+        panel.background = element_blank(), 
+        panel.border = element_blank(), 
+        legend.position="bottom", 
+        legend.text = element_text(size=9))
+
+
+COD.colors = c("plum4", "chocolate1", "lightsteelblue3", "darkslateblue","forestgreen", "goldenrod3", "lightsalmon", "orange2", "palegreen4", "peru", "seashell4", "thistle3", "wheat4", "steelblue4", "tan2", "lavenderblush4")
+
+ggplotly(ggplot(COD, aes(reorder(CauseOfDeath, -count),count, fill = CauseOfDeath))+geom_bar(stat= "identity")+
+  scale_fill_manual(values = COD.colors)+theme_economist()+ theme(legend.position="none")+ labs(x = ""))
 
 
