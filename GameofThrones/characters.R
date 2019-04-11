@@ -65,7 +65,7 @@ output$pageStub <- renderUI( fluidPage(
         )
       )
   ),
-  div(style = 'margin-top: 0%;',
+  div(style = 'margin-top: 0%; margin-bottom: 0%',
       fluidRow(
         column(2, offset =1,
                h4("House Sigil:"),
@@ -93,13 +93,14 @@ output$pageStub <- renderUI( fluidPage(
       )),
   
   conditionalPanel(
-    condition = "input.Character2 != 'None' ",
-    style = 'margin-top: -10%;',
-    fluidRow(
-      column(7, offset = 1,
+    condition = "input.Character2 != 'None' && input.Character != input.Character2 ",
+    
+    fluidRow(),
+    fluidRow( style = "margin-top:-10%", 
+      column(7,offset = 1,
              h2("Character 2 Information")
       )
-    ),
+     ),
     fluidRow(
       column(2, offset=1,
              h4("House Sigil:"),
@@ -121,7 +122,7 @@ output$pageStub <- renderUI( fluidPage(
              #textOutput("Character1KillCount"),
              #tags$style("#Character1KillCount {font-size:50px;color:white;}")
       )
-    )  
+    )
   )
 )
 )

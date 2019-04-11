@@ -133,3 +133,31 @@ ggplotly(ggplot(COD, aes(reorder(CauseOfDeath, -count),count, fill = CauseOfDeat
   scale_fill_manual(values = COD.colors)+theme_economist()+ theme(legend.position="none")+ labs(x = ""))
 
 
+SeasonEp = GOTKills %>%
+group_by(SeasonNum, EpNum) %>%
+  summarize (kills = n() )
+
+
+ggplot(SeasonEp, aes(EpNum, kills))+geom_line(aes(group = SeasonNum, color =SeasonNum))
+
+r = SeasonEp %>%
+  filter( SeasonNum %in% c( 1,2,3))
+library(lubridate)
+
+GOTKillstest = GOTKills %>%
+  mutate(minutes = minute(Time)) %>%
+  filter(!is.na(minutes)) %>% 
+  mutate( bin = case_when(minutes <10 ~ "0-10", 
+                          minutes >=10 & minutes <20 ~ "10-20" , 
+                          minutes>=20 & minutes <30 ~ "20-30" ,
+                          minutes>=30 & minutes <40 ~ "30-40" ,
+                          minutes>=40 & minutes <50 ~ "40-50" ,
+                          minutes>=50 ~ "50+" 
+                          )) %>%
+  group_by (SeasonNum, bin)%>%
+  summarize ( count = n())
+
+ggplot(GOTKillstest, aes(bin,count))+geom_bar(stat = "identity")
+# + scale_fill_manual(values = Season.colors,name = "Seasons" )
+
+

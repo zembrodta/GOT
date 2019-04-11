@@ -4,7 +4,7 @@ CharactersSoFar <- read_excel("~/Documents/GameOfThrones/CharactersSoFar.xlsx")
 CharactersTrunc <- CharactersSoFar %>% select(-c(CharacterFirst, CharacterLast, FullName, 
                                   Ranker, `2018Blog`, `Goodness score- only top 40, watchers on the wall`, seasonDeath, CauseOfDeath,
                                   `Major Death Event`, `Killer First`, KillerLast, `Season Present`, `dead spouse`, ScreenTime, Episodes, Season1,
-                                  Season2, Season3, Season4, Season5, Season6, Season7, house))
+                                  Season2, Season3, Season4, Season5, Season6, Season7))
 
 #Correlation matrix
 
@@ -13,35 +13,37 @@ CharactersTrunc <- CharactersSoFar %>% select(-c(CharacterFirst, CharacterLast, 
 CharactersTrunc= CharactersTrunc %>% mutate_if(is.character, as.factor)
 CharactersTrunc= CharactersTrunc %>% mutate_if(is.factor, as.numeric)
 
-
+CharactersTrunc$FullName = CharactersSoFar$FullName
 sum( CharactersTrunc$dead)
 nrow(CharactersTrunc)
 CharactersTrunc = CharactersTrunc[complete.cases(CharactersTrunc),]
-res <- cor(CharactersTrunc)
+res <- cor(CharactersTrunc) 
+
 res
 #Create training and testing
-smp_size <- floor(0.7 * nrow(CharactersTrunc))
+smp_size <- floor(0.85 * nrow(CharactersTrunc))
 
 ## set the seed to make your partition reproducible
-set.seed(18)
 train_ind <- sample(seq_len(nrow(CharactersTrunc)), size = smp_size)
 
 train <- CharactersTrunc[train_ind, ]
+
 test <- CharactersTrunc[-train_ind, ]
 
 #Create logisitc regression model
 
-mylogit <-glm(dead ~ SlaveProstitute+Hometown+timeperEp+children+Married+NotPresentButNotDead, data = CharactersTrunc)
+mylogit <-glm(dead ~Occupation+Hometown+timeperEp+children+Married, data = train)
 summary(mylogit)
 #Predict on test data 
 test$rankP <- predict(mylogit, newdata = test)
-test %>% select(dead, rankP)
+test %>% select(FullName, dead, rankP)
 
 
 
 #Very interesting. We did fairly well if we give it a greater than .5 means dead 
 training = CharactersTrunc
-
+training= training %>%
+  select( -FullName)
 training_x <- as.matrix(as.matrix(training[-2]))
 training_x <- apply(training_x, 2 , as.numeric)
 training_y <- as.matrix(training[2])

@@ -9,29 +9,26 @@ ui <- uiOutput("uiStub")
 
 server <- function ( input, output, session ){
   output$uiStub <- renderUI(tagList(             # a single-output stub ui basically lets you
-    # tags$audio(src = "www/MainTheme.mp3", type = "audio/mp3", autoplay = TRUE, controls =T),
     fluidPage(                                  #     move the ui into the server function
-      fluidRow(
-        column(12,h1("Game of Thrones")
-        )),
-      
-      fluidRow(
+      fluidRow(imageOutput("GOT")),
+      fluidRow(style = 'margin-top:-18%;',
         column(12,
                HTML(
-                    "<h3><a href='?characters'>Characters</a> |",
+                    "<h3><a href='?home'>Home</a> |",
+                    "<a href='?characters'>Characters</a> |",
                     "<a href='?houses'>Houses</a> |",
                     "<a href='?gender'>Gender</a> |",
                     "<a href='?death'>Death</a> |",
+                    "<a href='?predictions'>Predictions </a>",
                     "</h3>")
-        )
-      ),
+        )),
       uiOutput("pageStub")                     # loaded server code should render the
     )                                           #    rest of the page to this output$
   ))
-  validFiles = c( "characters.R", "houses.R", "gender.R", "death.R")
+  validFiles = c( "home.R","characters.R", "houses.R", "gender.R", "death.R", "predictions.R")
   
   fname = isolate(session$clientData$url_search)       # isolate() deals with reactive context
-  if(nchar(fname)==0) { fname = "?characters" }              # blank means home page
+  if(nchar(fname)==0) { fname = "?home" }              # blank means home page
   fname = paste0(substr(fname, 2, nchar(fname)), ".R") # remove leading "?", add ".R"
   
   cat(paste0("Session filename: ", fname, ".\n"))      # print the URL for this session
@@ -47,8 +44,14 @@ server <- function ( input, output, session ){
     ))
     return()    # to prevent a "file not found" error on the next line after a 404 error
   }
-  source(fname, local=TRUE)    
+  source(fname, local=TRUE)   
+  output$GOT = renderImage({ 
+    img = "logo.png" 
+    list(src = img, width = 400,
+         height = 100)},
+    deleteFile = FALSE)
 }
+
 # Run the application 
 shinyApp(ui = ui, server = server)
 

@@ -14,7 +14,7 @@ Season5Top = top_n(HouseScreenTime, 4, season5)
 Season6Top = top_n(HouseScreenTime, 4, season6)
 Season7Top = top_n(HouseScreenTime, 4, season7)
 
-houses.colors <- c("Stark" = "plum4", "Targaryen" = "firebrick", "Lannister" = "peru", "Greyjoy" = "grey31", "Baratheon" = "chocolate4", "Tyrell" = "darkolivegreen3", "Clegane" = "steelblue", "Free Folk" = "blue")
+houses.colors <- c("Stark" = "plum4", "Targaryen" = "firebrick", "Lannister" = "peru", "Greyjoy" = "grey31", "Baratheon" = "chocolate4", "Tyrell" = "darkolivegreen3", "Clegane" = "steelblue", "Free Folk" = "coral2")
 Starkhouses.colors <- c("Stark" = "plum4", "Targaryen" = "azure3", "Lannister" = "azure3", "Greyjoy" = "azure3", "Baratheon" = "azure3", "Tyrell" = "azure3", "Clegane" = "azure3", "Free Folk" = "azure3")
 Lanhouses.colors <- c("Stark" = "azure3", "Targaryen" = "azure3", "Lannister" = "peru", "Greyjoy" = "azure3", "Baratheon" = "azure3", "Tyrell" = "azure3", "Clegane" = "azure3", "Free Folk" = "azure3")
 Targhouses.colors <- c("Stark" = "azure3", "Targaryen" = "firebrick", "Lannister" = "azure3", "Greyjoy" = "azure3", "Baratheon" = "azure3", "Tyrell" = "azure3", "Clegane" = "azure3", "Free Folk" = "azure3")
@@ -49,7 +49,7 @@ output$pageStub <- renderUI(
   
   # mainPanel( id = "mainPlots",
              fluidRow( id = "mainPlots",
-               column(4,
+               column(4, 
                       plotOutput("Season1")
                ),
                column(4,
@@ -58,16 +58,17 @@ output$pageStub <- renderUI(
                column(4,
                       plotOutput("Season3")
                ),
-               column(4,
+               
+               column(4,style = "margin-top:5%", 
                        plotOutput("Season4")
                ), 
-             column(4,
+             column(4,style = "margin-top:5%", 
                     plotOutput("Season5")
              ), 
-             column(4,
+             column(4,style = "margin-top:5%", 
                     plotOutput("Season6")
              ),
-             column(4,
+             column(4,style = "margin-top:5%", 
                     plotOutput("Season7")
   )
   ),
@@ -84,16 +85,16 @@ output$pageStub <- renderUI(
       column(4,
              plotOutput("StarkSeason3")
       ),
-      column(4,
+      column(4,style = "margin-top:5%", 
              plotOutput("StarkSeason4")
       ),
-      column(4,
+      column(4,style = "margin-top:5%", 
              plotOutput("StarkSeason5")
       ),
-      column(4,
+      column(4,style = "margin-top:5%", 
              plotOutput("StarkSeason6")
       ),
-      column(4,
+      column(4,style = "margin-top:5%", 
              plotOutput("StarkSeason7")
       )
   ))), 
@@ -109,16 +110,16 @@ output$pageStub <- renderUI(
            column(4,
                   plotOutput("LanSeason3")
            ),
-           column(4,
+           column(4,style = "margin-top:5%", 
                   plotOutput("LanSeason4")
            ),
-           column(4,
+           column(4,style = "margin-top:5%", 
                   plotOutput("LanSeason5")
            ),
-           column(4,
+           column(4,style = "margin-top:5%", 
                   plotOutput("LanSeason6")
            ),
-           column(4,
+           column(4,style = "margin-top:5%", 
                   plotOutput("LanSeason7")
            )
          ))), 
@@ -134,16 +135,16 @@ output$pageStub <- renderUI(
            column(4,
                   plotOutput("TargSeason3")
            ),
-           column(4,
+           column(4,style = "margin-top:5%", 
                   plotOutput("TargSeason4")
            ),
-           column(4,
+           column(4,style = "margin-top:5%", 
                   plotOutput("TargSeason5")
            ),
-           column(4,
+           column(4,style = "margin-top:5%", 
                   plotOutput("TargSeason6")
            ),
-           column(4,
+           column(4,style = "margin-top:5%", 
                   plotOutput("TargSeason7")
            )
          ))), 
@@ -159,16 +160,16 @@ output$pageStub <- renderUI(
            column(4,
                   plotOutput("GreySeason3")
            ),
-           column(4,
+           column(4,style = "margin-top:5%", 
                   plotOutput("GreySeason4")
            ),
-           column(4,
+           column(4,style = "margin-top:5%", 
                   plotOutput("GreySeason5")
            ),
-           column(4,
+           column(4,style = "margin-top:5%", 
                   plotOutput("GreySeason6")
            ),
-           column(4,
+           column(4,style = "margin-top:5%", 
                   plotOutput("GreySeason7")
            )
          )))

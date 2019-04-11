@@ -31,35 +31,39 @@ aSTG = ScreenTimeGender %>%
 output$pageStub <- renderUI( 
   fluidPage(
     theme = shinytheme('superhero'),
-    fluidRow(
-             h2("Top 100 Characters", align = "center")
-      ),
-    fluidRow(
-      column(10,align="center",offset = 1, plotOutput("Top100GenderPlot")
-             )
-      ),
-    div(style = 'margin-top: 5%;',
-    fluidRow(
-      h2("Percent of Each Gender that is Deceased", align = "center" )
-    )),
-    fluidRow(
-      column(3, offset = 3,
-             h4( "Female: "),
-             textOutput("Fper"), 
-             tags$style("#Fper {font-size:50px;color:white;}")
+    fluidRow( column ( 7, offset = 1, h2("Top 100 Characters"))
              
       ),
-      column(3, offset = 1,
-             h4( "Male:"),
-             textOutput("Mper"), 
-             tags$style("#Mper {font-size:50px;color:white;}")
-      )
-    ),
-    div(style = 'margin-top: 5%;',
     fluidRow(
-      h2("Screen Time by Gender", align = "center")
+      column (2, offset = 1, style = 'margin-top: 3%;',
+              h3("Males:    69"), 
+              h3("Females:  29"), 
+              h3("Other:     2")),
+      
+      column(8,plotOutput("Top100GenderPlot")
+             ) 
+      ),
+    # div(style = 'margin-top: -5%;',
+    # fluidRow(column ( 7, offset = 1 ,h2("Percent of Each Gender that is Deceased"))
+    # )),
+    # fluidRow(
+    #   column(3, offset = 3,
+    #          h4( "Female: "),
+    #          textOutput("Fper"), 
+    #          tags$style("#Fper {font-size:50px;color:white;}")
+    #          
+    #   ),
+    #   column(3,
+    #          h4( "Male:"),
+    #          textOutput("Mper"), 
+    #          tags$style("#Mper {font-size:50px;color:white;}")
+    #   )
+    # ),
+    div(style = 'margin-top: -5%;',
+    fluidRow(column(7, offset =1, h2("Screen Time by Gender"))
+      
     )),
-    fluidRow( 
+    fluidRow( style = 'margin-top: 5%;',
       column (2,offset = 1,
               selectInput("Season",
                           label = "Choose a Season to display the Average and Total Screentime per Gender",
@@ -83,7 +87,7 @@ output$pageStub <- renderUI(
 output$Top100GenderPlot <- renderPlot({
   v = STG$count
   names(v) = STG$Gender
-  waffle::waffle(v,  rows=5, colors = c("plum4", "chocolate1", "lightsteelblue3"))+ theme_economist()+
+  waffle::waffle(v,  rows=5, colors = c("plum4", "darkseagreen", "lightsteelblue3"))+ theme_economist()+
     theme(axis.title.x=element_blank(),
           axis.text.x=element_blank(),
           axis.ticks.x=element_blank(),
@@ -97,7 +101,7 @@ output$Top100GenderPlot <- renderPlot({
 
 
 output$AvgScreenTime <- renderPlot({
-  gender.colors <- c("F" = "plum4", "M" = "chocolate1")
+  gender.colors <- c("F" = "plum4", "M" = "darkseagreen")
   STA = STA %>%
     select(Gender, var = input$Season)
   
@@ -107,7 +111,7 @@ output$AvgScreenTime <- renderPlot({
 })
 
 output$AvgScreenTime <- renderPlot({
-  gender.colors <- c("F" = "plum4", "M" = "chocolate1")
+  gender.colors <- c("F" = "plum4", "M" = "darkseagreen")
   STAm = STAm %>%
     select(Gender, var = input$Season)
   
@@ -118,7 +122,7 @@ output$AvgScreenTime <- renderPlot({
 })
 
 output$TotalScreenTime <- renderPlot({
-  gender.colors <- c("F" = "plum4", "M" = "chocolate1")
+  gender.colors <- c("F" = "plum4", "M" = "darkseagreen")
   
   STA = ScreenTimeGender %>%
     filter(Gender == "M"| Gender == "F")%>%
