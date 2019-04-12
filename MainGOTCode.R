@@ -160,4 +160,8 @@ GOTKillstest = GOTKills %>%
 ggplot(GOTKillstest, aes(bin,count))+geom_bar(stat = "identity")
 # + scale_fill_manual(values = Season.colors,name = "Seasons" )
 
+GOTKiller = GOTKills %>%
+  group_by(Killer)%>%
+  summarize (count = n())
+
 

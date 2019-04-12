@@ -18,6 +18,7 @@ top10melted = melt(top10, id.var = c("character", "House", "Color", "Episodes"))
 starks = c("Jon Snow", "Arya Stark", "Sansa Stark")
 lannister = c("Tyrion Lannister", "Cersei Lannister", "Jaime Lannister")
 ScreenTime1 = left_join(ScreenTime, Goodness)
+kills = read_excel("~/Documents/GameOfThrones/KillCount.xlsx")
 
 top10TimePerEpisode = top10melted %>%group_by(character) %>% summarise(timePerEp = sum(value)/ mean(Episodes))
 
@@ -84,9 +85,9 @@ output$pageStub <- renderUI( fluidPage(
                tags$style("#Character1Good {font-size:50px;color:white;}")
         ), 
         column(3,
-               h4( "Kill Count:")
-               #textOutput("Character1KillCount"),
-               #tags$style("#Character1KillCount {font-size:50px;color:white;}")
+               h4( "Kill Count:"),
+               textOutput("Character1KillCount"),
+               tags$style("#Character1KillCount {font-size:50px;color:white;}")
         )
         
         
@@ -118,9 +119,9 @@ output$pageStub <- renderUI( fluidPage(
              tags$style("#Character2Good {font-size:50px;color:white;}")
       ),
       column(3,
-             h4( "Kill Count:")
-             #textOutput("Character1KillCount"),
-             #tags$style("#Character1KillCount {font-size:50px;color:white;}")
+             h4( "Kill Count:"),
+             textOutput("Character2KillCount"),
+             tags$style("#Character2KillCount {font-size:50px;color:white;}")
       )
     )
   )
@@ -198,4 +199,14 @@ output$Character1Good = renderText ({
 output$Character2Good = renderText ({
   character2Good =ScreenTime1 %>% filter(character == input$Character2) %>%summarize(Goodness = mean(Goodness))
   paste(round(character2Good$Goodness,2))
+}) 
+
+output$Character1KillCount = renderText ({
+  character1Kill =kills %>% filter(character == input$Character)
+  paste(round(character1Kill$kills ,2))
+})
+
+output$Character2KillCount = renderText ({
+  character2Kill =kills %>% filter(character == input$Character2)
+  paste(round(character2Kill$kills ,2))
 }) 

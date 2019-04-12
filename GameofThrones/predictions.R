@@ -28,11 +28,12 @@ output$pageStub <- renderUI(
 
 
 output$grey = renderImage({ 
-  list(src = "grey.png", width = 600,
+  list(src = "Click.png", width = 600,
        height = 300)},
-  deleteFile = FALSE)  
+  deleteFile = FALSE)
+
 output$grey2 = renderImage({ 
-  list(src = "grey.png", width = 600,
+  list(src = "Click.png", width = 600,
        height = 300)},
   deleteFile = FALSE)  
 
