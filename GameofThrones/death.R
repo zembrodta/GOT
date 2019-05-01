@@ -2,17 +2,22 @@
 # ALSO ADD WHAT PARTS OF THE EPISODE SHOW THE MOST DEATH 
 #STRETCH - MALE AND FEMALE 
 
+ScreenTime <- read_excel("data/ScreenTime.xlsx")
+ScreenTimeGender <- read_excel("data/ScreenTimeGender.xlsx")
 
-ScreenTimeGender <- read_excel("~/Documents/GameOfThrones/ScreenTimeGender.xlsx")
-
-SigDeath <- read_excel("~/Documents/GameOfThrones/SigDeath.xlsx")
+SigDeath <- read_excel("data/SigDeath.xlsx")
 SigDeath1 = SigDeath[c(5,1)] 
 
-V <- read_csv("~/Documents/GitHub/GOT/V.csv")
+V <- read_csv("data/V.csv")
 
-GOTKills <- read_excel("~/Documents/GameOfThrones/GOTKills.xlsx", 
+GOTKills <- read_excel("data/GOTKills.xlsx", 
                        col_types = c("text", "text", "numeric", 
                                      "numeric", "date", "skip"))
+
+SeasonEp = GOTKills %>%
+  group_by(SeasonNum, EpNum) %>%
+  summarize (kills = n() )
+
 Season.colors = c("mistyrose4", "lightsteelblue3", "navajowhite3", "paleturquoise4", "salmon3", "tan2", "darkseagreen")
 COD = ScreenTimeGender %>%
   group_by(CauseOfDeath)%>%
@@ -28,7 +33,7 @@ output$pageStub <- renderUI(
                     )
     ), 
     fluidRow(
-      column(10,offset =1,
+      column(10,offset =1,style = 'margin-top:-3%;',
              plotOutput("directedDeathPlot")
       )), 
     fluidRow( column(5, offset = 1,style = 'margin-top:35%;', 
@@ -118,7 +123,7 @@ output$directedDeathPlot <- renderPlot({
   deathnet = graph_from_data_frame(d = SigDeath1, vertices = V, directed = T)
   plot(deathnet, vertex.label.degree = -pi/2, vertex.color = V$color, vertex.label.cex = 1, vertex.size=7, vertex.label.dist =1.1,edge.curve = .1, edge.arrow.size=.5, vertex.label.color="white",vertex.label.font =2, layout=layout_with_fr)
   
-}, bg="transparent",height = 1000, width = 1250)
+}, bg="transparent",height =975, width = 1250)
 
 output$causePlot = renderPlotly({
   
@@ -150,7 +155,7 @@ output$Season = renderPlotly({
   df2 = SeasonEp %>%
     filter(SeasonNum %in% input$seasons) 
   #df2$EpNum <- factor(df2$EpNum, levels = df2$EpNum[order(df2$EpNum)])
-  print(ggplotly(ggplot(df2, aes(as.factor(EpNum), kills))+geom_line(aes(group = as.character(SeasonNum), color = as.character(SeasonNum)),size=2)+ theme_economist()+ scale_color_manual(values = Season.colors,name = "Seasons" )+ labs (x = "Episode Number", y = "Kills")))
+  print(ggplotly(ggplot(df2, aes(as.factor(EpNum), kills))+geom_line(aes(group = as.character(SeasonNum), color = as.character(SeasonNum)),size=2)+ theme_economist()+ scale_color_manual(values = Season.colors, name = "Seasons" )+ labs (x = "Episode Number", y = "Kills")))
   #print(ggplotly(ggplot(df2, aes(EpNum, kills))+geom_line(aes(group = SeasonNum))+ scale_color_manual(values = Season.colors)))
 })        
 

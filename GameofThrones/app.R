@@ -5,16 +5,29 @@
 #3/20/19
 
 # Define UI for application -----
+
+library(tidyverse)
+library(readxl)
+library(reshape2)
+library(shiny)
+library(shinythemes)
+library(ggthemes)
+library(shinyjs)
+library(waffle)
+library(igraph)
+library(plotly)
+library(lubridate)
 ui <- uiOutput("uiStub")
 
 server <- function ( input, output, session ){
   output$uiStub <- renderUI(tagList(             # a single-output stub ui basically lets you
     fluidPage(                                  #     move the ui into the server function
       fluidRow(imageOutput("GOT")),
-      fluidRow(style = 'margin-top:-18%;',
+      fluidRow(style = 'margin-top:-20%;',
         column(12,
                HTML(
                     "<h3><a href='?home'>Home</a> |",
+                    "<a href='?about'>About</a> |",
                     "<a href='?characters'>Characters</a> |",
                     "<a href='?houses'>Houses</a> |",
                     "<a href='?gender'>Gender</a> |",
@@ -25,7 +38,7 @@ server <- function ( input, output, session ){
       uiOutput("pageStub")                     # loaded server code should render the
     )                                           #    rest of the page to this output$
   ))
-  validFiles = c( "home.R","characters.R", "houses.R", "gender.R", "death.R", "predictions.R")
+  validFiles = c( "home.R","about.R","characters.R", "houses.R", "gender.R", "death.R", "predictions.R")
   
   fname = isolate(session$clientData$url_search)       # isolate() deals with reactive context
   if(nchar(fname)==0) { fname = "?home" }              # blank means home page

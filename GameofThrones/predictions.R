@@ -1,6 +1,6 @@
 output$pageStub <- renderUI( 
   fluidPage(useShinyjs(),theme = shinytheme('superhero'),
-            fluidRow( column( 7, offset = 1, h2("WHO WILL SURVIVE TO WIN THE IRON THRONE? ")
+            fluidRow( column( 7, offset = 1, h2("WHO IS MOST LIKELY TO LIVE? ")
                               )
               ), 
             fluidRow ( id = "greyBox", align = "center",imageOutput("grey", click = "grey_click")
@@ -28,12 +28,12 @@ output$pageStub <- renderUI(
 
 
 output$grey = renderImage({ 
-  list(src = "Click.png", width = 600,
+  list(src = "click.png", width = 600,
        height = 300)},
   deleteFile = FALSE)
 
 output$grey2 = renderImage({ 
-  list(src = "Click.png", width = 600,
+  list(src = "click.png", width = 600,
        height = 300)},
   deleteFile = FALSE)  
 
@@ -43,7 +43,7 @@ output$brienne = renderImage({
   deleteFile = FALSE)   
 
 output$sansa = renderImage({ 
-  list(src = "Sansa2.jpg", width = 600,
+  list(src = "sansa2.jpg", width = 600,
        height = 300)},
   deleteFile = FALSE)   
               

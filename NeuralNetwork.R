@@ -1,3 +1,4 @@
+
 CharactersSoFar <- read_excel("~/Documents/GameOfThrones/CharactersSoFar.xlsx")
 
 #Get rid of any columns that would be problematic 
@@ -32,8 +33,10 @@ test <- CharactersTrunc[-train_ind, ]
 
 #Create logisitc regression model
 
-mylogit <-glm(dead ~Occupation+Hometown+timeperEp+children+Married, data = train)
+mylogit <-glm(dead~Occupation+Hometown+timeperEp+children+Married, data = train)
+
 summary(mylogit)
+
 #Predict on test data 
 test$rankP <- predict(mylogit, newdata = test)
 test %>% select(FullName, dead, rankP)
@@ -97,3 +100,28 @@ library(keras)
 
 
 #This is interesting... It kind of learns? 
+
+c = CharactersTrunc$FullName
+df = data.frame()
+for (i in CharactersTrunc$FullName)
+{
+  train = CharactersTrunc %>%
+    filter(FullName != i)
+  test = CharactersTrunc %>%
+    filter(FullName == i)
+  mylogit <-glm(dead ~Occupation+Hometown+timeperEp+children+Married, data = train)
+  test$Prediction <- predict(mylogit, newdata = test)
+  df = rbind( df, test)
+}
+
+dfAll = df %>%
+  mutate(roundedPred = round(Prediction,0)) %>%
+  mutate( correct = ifelse( dead == roundedPred, TRUE, FALSE))
+
+sum( dfAll$correct)/ nrow(dfAll)
+
+sum(dfAll$dead)/ nrow(dfAll)
+
+dfDead = df %>%
+  select( FullName,dead, Prediction) %>% 
+  filter( dead ==0)

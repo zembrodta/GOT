@@ -1,3 +1,4 @@
+ScreenTime <- read_excel("data/ScreenTime.xlsx")
 
 HouseScreenTime = ScreenTime %>%
   group_by(House) %>%

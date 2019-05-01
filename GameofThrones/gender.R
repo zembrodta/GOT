@@ -1,4 +1,4 @@
-ScreenTimeGender <- read_excel("~/Documents/GameOfThrones/ScreenTimeGender.xlsx")
+ScreenTimeGender <- read_excel("data/ScreenTimeGender.xlsx")
 
 STG = ScreenTimeGender %>%
   group_by(Gender)%>%
